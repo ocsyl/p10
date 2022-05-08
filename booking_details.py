@@ -7,7 +7,6 @@ class BookingDetails:
         self,
         destination: str = None,
         origin: str = None,
-        # travel_date: str = None,
         str_date: str = None,
         end_date: str = None,
         budget: str = None,
@@ -17,7 +16,6 @@ class BookingDetails:
             unsupported_airports = []
         self.destination = destination
         self.origin = origin
-        # self.travel_date = travel_date
         self.str_date = str_date
         self.end_date = end_date
         self.budget = budget
