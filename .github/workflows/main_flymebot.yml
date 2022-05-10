@@ -40,6 +40,9 @@ jobs:
             . 
             !venv/
 
+      - name: Tests with unittest
+        run: python -m unittest discover -s ./  -p '*_test*.py'
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
