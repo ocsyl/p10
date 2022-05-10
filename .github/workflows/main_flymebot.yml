@@ -41,6 +41,10 @@ jobs:
             !venv/
 
       - name: Tests with unittest
+        env: 
+          LuisAPIHostName: ${{ secrets.LUISAPIHOSTNAME }}
+          LuisAPIKey: ${{ secrets.LUISAPIKEY }}
+          LuisAppId: ${{ secrets.LUISAPPID }}
         run: python -m unittest discover -s ./  -p '*_test*.py'
 
   deploy:
