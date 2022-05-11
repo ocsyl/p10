@@ -165,7 +165,7 @@ class BookingDialog(CancelAndHelpDialog):
             return await step_context.end_dialog(booking_details)
 
         else:
-            self.telemetry_client.track_trace("Test trace", { 'key' : 'value'}, "DEBUG")
+            self.telemetry_client.track_trace("Test trace1", { 'key' : 'value'}, "DEBUG")
 
         return await step_context.end_dialog()
 
