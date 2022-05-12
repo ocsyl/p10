@@ -7,6 +7,7 @@ from datatypes_date_time.timex import Timex
 from botbuilder.dialogs import WaterfallDialog, WaterfallStepContext, DialogTurnResult
 from botbuilder.dialogs.prompts import ConfirmPrompt, TextPrompt, PromptOptions
 from botbuilder.core import MessageFactory, BotTelemetryClient, NullTelemetryClient
+from botbuilder.schema import InputHints
 from .cancel_and_help_dialog import CancelAndHelpDialog
 from .date_resolver_dialog import DateResolverDialog
 
@@ -158,15 +159,21 @@ class BookingDialog(CancelAndHelpDialog):
 
     async def final_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         """Complete the interaction and end the dialog."""
-        if step_context.result:
-            booking_details = step_context.options
-            # booking_details.travel_date = step_context.result
 
+        booking_details = step_context.options
+
+        # positive response
+        if step_context.result:
             return await step_context.end_dialog(booking_details)
 
-        else:
-            self.telemetry_client.track_trace("Test trace1", { 'key' : 'value'}, "DEBUG")
-
+        # negative response : send datas to app insight
+        properties = {}
+        properties['destination'] = booking_details.destination
+        properties['origin'] = booking_details.origin
+        properties['str_date'] = booking_details.str_date
+        properties['end_date'] = booking_details.end_date
+        properties['budget'] = booking_details.budget
+        self.telemetry_client.track_trace("BOOKING_NOT_CONFIRMED", properties, "ERROR")
         return await step_context.end_dialog()
 
     def is_ambiguous(self, timex: str) -> bool:
