@@ -173,7 +173,7 @@ class BookingDialog(CancelAndHelpDialog):
         properties['str_date'] = booking_details.str_date
         properties['end_date'] = booking_details.end_date
         properties['budget'] = booking_details.budget
-        self.telemetry_client.track_trace("BOOKING_NOT_CONFIRMED", properties, "ERROR")
+        self.telemetry_client.track_trace("BOOKING NOT CONFIRMED", properties, "ERROR")
         return await step_context.end_dialog()
 
     def is_ambiguous(self, timex: str) -> bool:
