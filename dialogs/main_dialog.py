@@ -36,6 +36,7 @@ class MainDialog(ComponentDialog):
         text_prompt.telemetry_client = self.telemetry_client
 
         booking_dialog.telemetry_client = self.telemetry_client
+        booking_dialog.luis_recognizer = luis_recognizer
 
         wf_dialog = WaterfallDialog(
             "WFDialog", [self.intro_step, self.act_step, self.final_step]
@@ -51,7 +52,9 @@ class MainDialog(ComponentDialog):
 
         self.initial_dialog_id = "WFDialog"
 
+
     async def intro_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+
         if not self._luis_recognizer.is_configured:
             await step_context.context.send_activity(
                 MessageFactory.text(
@@ -60,8 +63,8 @@ class MainDialog(ComponentDialog):
                     input_hint=InputHints.ignoring_input,
                 )
             )
-
             return await step_context.next(None)
+
         message_text = (
             str(step_context.options)
             if step_context.options
@@ -70,7 +73,6 @@ class MainDialog(ComponentDialog):
         prompt_message = MessageFactory.text(
             message_text, message_text, InputHints.expecting_input
         )
-
         return await step_context.prompt(
             TextPrompt.__name__, PromptOptions(prompt=prompt_message)
         )
@@ -125,7 +127,7 @@ class MainDialog(ComponentDialog):
             # If the call to the booking service was successful tell the user.
             # time_property = Timex(result.travel_date)
             # travel_date_msg = time_property.to_natural_language(datetime.now())
-            msg_txt = f"I have you booked to {result.destination} from {result.origin} from date {result.str_date} to {result.end_date} with your budget of {result.budget}."
+            msg_txt = f"I have you booked \nto {result.destination} \nfrom {result.origin} \nfrom date {result.str_date} to {result.end_date} \nwith your budget of {result.budget}."
 
             message = MessageFactory.text(msg_txt, msg_txt, InputHints.ignoring_input)
             await step_context.context.send_activity(message)
