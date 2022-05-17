@@ -55,6 +55,8 @@ class LuisHelper:
             if intent == Intent.BOOK_FLIGHT.value:
                 result = BookingDetails()
 
+                result.initial_message = recognizer_result.text
+
                 # We need to get the result from the LUIS JSON which at every level returns an array.
 
                 dst_entities = recognizer_result.entities.get("$instance", {}).get(

@@ -170,9 +170,9 @@ class BookingDialog(CancelAndHelpDialog):
         booking_details.budget = step_context.result
 
         msg = (
-            f"Please confirm, I have you traveling \nto: { booking_details.destination }"
-            f" \nfrom: { booking_details.origin } \non date from: { booking_details.str_date}"
-            f" to: { booking_details.end_date } \nwith a budget of: { booking_details.budget}"
+            f"Please confirm, I have you traveling to: { booking_details.destination }"
+            f" from: { booking_details.origin } on date from: { booking_details.str_date}"
+            f" to: { booking_details.end_date } with a budget of: { booking_details.budget}"
         )
 
         # Offer a YES/NO prompt.
@@ -191,6 +191,7 @@ class BookingDialog(CancelAndHelpDialog):
 
         # negative response : send datas to app insight
         properties = {}
+        properties['init_message'] = booking_details.initial_message
         properties['destination'] = booking_details.destination
         properties['origin'] = booking_details.origin
         properties['str_date'] = booking_details.str_date

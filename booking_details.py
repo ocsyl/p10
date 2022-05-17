@@ -5,6 +5,7 @@
 class BookingDetails:
     def __init__(
         self,
+        initial_message: str = None,
         destination: str = None,
         origin: str = None,
         str_date: str = None,
@@ -14,6 +15,7 @@ class BookingDetails:
     ):
         if unsupported_airports is None:
             unsupported_airports = []
+        self.initial_message = initial_message
         self.destination = destination
         self.origin = origin
         self.str_date = str_date
